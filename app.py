@@ -34,6 +34,7 @@ def preprocess(text):
     return ' '.join([w for w in text.split() if w not in all_stopwords])
 
 # 3. AI Matcher Logic
+# 3. AI Matcher Logic
 def get_ats_score(resume_text, job_desc):
     cleaned_resume = preprocess(resume_text)
     cleaned_jd = preprocess(job_desc)
@@ -41,7 +42,15 @@ def get_ats_score(resume_text, job_desc):
     vectorizer = TfidfVectorizer()
     vectors = vectorizer.fit_transform([cleaned_jd, cleaned_resume])
     similarity = cosine_similarity(vectors[0], vectors[1])
-    return round(similarity[0][0] * 100, 2)
+    
+    # --- COMMERCIAL ATS NORMALIZATION ---
+    raw_score = similarity[0][0] * 100
+    
+    # Scale the raw cosine math to a human-readable format.
+    # We multiply by a scaling factor of 3 and cap it at 100%.
+    adjusted_score = min(100.00, raw_score * 3) 
+    
+    return round(adjusted_score, 2)
 
 # --- ENHANCED WEB INTERFACE (FRONTEND) ---
 
