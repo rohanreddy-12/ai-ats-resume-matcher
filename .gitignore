@@ -1,0 +1,11 @@
+# Ignore PDF files
+*.pdf
+
+# Ignore Python cache
+__pycache__/
+*.pyc
+
+# Ignore virtual environments (if you made one)
+venv/
+env/
+.venv/
